@@ -56,6 +56,9 @@ public class Mainwindow
         		Console.WriteLine("done Querying for: " +keywords[i]); 
         		Console.WriteLine("###############");
         	}
+        	Console.WriteLine("Getting number of backlinks");
+        	int bl = lgc.GetBackLinks(url);
+        	Console.WriteLine("# of backlinks: " + bl.ToString());
         }
         
         public void FillSiteList()

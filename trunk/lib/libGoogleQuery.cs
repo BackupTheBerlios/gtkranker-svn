@@ -41,5 +41,24 @@ namespace ranker.lib
 			gs = null;
 			return position;
 		}
+		
+		public int GetBackLinks(string url)
+		{
+			GoogleSearchService gs = new GoogleSearchService();
+			int backlinks = -1;
+			try
+			{
+				GoogleService.GoogleSearchResult r = gs.doGoogleSearch(googleKey, "link:"+url,0, 10, false, "", false, "", "", "");
+				// find out if we are in these results
+				backlinks = r.estimatedTotalResultsCount;
+			}
+			catch (System.Web.Services.Protocols.SoapException ex) 
+			{
+				Console.Write(ex.Message);
+			} 
+			
+			gs = null;
+			return backlinks;
+		}
 	}
 }
