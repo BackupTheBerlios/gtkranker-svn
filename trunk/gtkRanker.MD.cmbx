@@ -1,9 +1,9 @@
-<Combine fileversion="1.0" name="gtkRanker" description="">
+<Combine fileversion="1.0" name="gtkRanker.MD" description="">
   <StartMode startupentry="gtkRanker" single="True">
     <Execute entry="gtkRanker" type="None" />
   </StartMode>
   <Entries>
-    <Entry filename="./gtkRanker.prjx" />
+    <Entry filename="./gtkRanker.MD.prjx" />
   </Entries>
   <Configurations active="Debug">
     <Configuration name="Release">
