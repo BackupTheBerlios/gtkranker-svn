@@ -9,12 +9,13 @@ using System.IO;
 
 namespace ranker.GUI
 {
-	public class NewWebsite
+	public class NewWebsite 
 	{
 		// Glade widgets
 		[Glade.Widget] Entry tbName;
 		[Glade.Widget] Entry tbUrl;
 		[Glade.Widget] Entry tbKeywords;
+		[Glade.Widget] Window winNewWebsite;
 		
 		// Xmldocument for the websites xml file
 		XmlDocument doc;
@@ -22,7 +23,7 @@ namespace ranker.GUI
 		public NewWebsite () 
         {
         	//Connect glade file
-        	Glade.XML gxml = new Glade.XML (null, "GTKRanker.glade", "NewWebsite", null);
+        	Glade.XML gxml = new Glade.XML (null, "GTKRanker.glade", "winNewWebsite", null);
             gxml.Autoconnect (this);  
             
             //Open Website configuration file
@@ -98,10 +99,14 @@ namespace ranker.GUI
         	this.CloseWindow();
             args.RetVal = true;
         }
-        
+        public void on_btnCancel_clicked(object o, EventArgs args) 
+        {
+        	this.CloseWindow();
+        }
         public void CloseWindow()
         {
-			//find out how to close the window       
+        	doc = null;
+			winNewWebsite.Destroy(); 
         }
 	}
 }

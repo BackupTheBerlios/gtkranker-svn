@@ -18,7 +18,7 @@ namespace ranker.GUI
        	public Mainwindow () 
         {
          	Application.Init();
-			Glade.XML gxml = new Glade.XML (null, "GTKRanker.glade", "MainWindow", null);
+			Glade.XML gxml = new Glade.XML (null, "GTKRanker.glade", "winMainWindow", null);
 			gxml.Autoconnect (this);
 			this.FillSiteList();
 			this.AddGeckoPanel();

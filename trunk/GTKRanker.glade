@@ -227,7 +227,7 @@
   <property name="translator_credits" translatable="yes">translator_credits</property>
 </widget>
 
-<widget class="GtkWindow" id="MainWindow">
+<widget class="GtkWindow" id="winMainWindow">
   <property name="width_request">750</property>
   <property name="height_request">550</property>
   <property name="visible">True</property>
@@ -439,7 +439,7 @@
   </child>
 </widget>
 
-<widget class="GtkWindow" id="NewWebsite">
+<widget class="GtkWindow" id="winNewWebsite">
   <property name="visible">True</property>
   <property name="title" translatable="yes">Add a website</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
@@ -629,13 +629,14 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkButton" id="button19">
+	    <widget class="GtkButton" id="btnCancel">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-cancel</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="focus_on_click">True</property>
+	      <signal name="clicked" handler="on_btnCancel_clicked" last_modification_time="Mon, 17 May 2004 15:44:13 GMT"/>
 	    </widget>
 	    <packing>
 	      <property name="left_attach">0</property>
