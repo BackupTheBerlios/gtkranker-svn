@@ -1,14 +1,14 @@
 SOURCES = \
-./Main.cs \
+./src/Main.cs \
 ./AssemblyInfo.cs \
-./GUI/AboutDialog.cs \
-./GUI/Mainwindow.cs \
-./lib/libWebsites.cs \
-./lib/GoogleService.cs \
-./lib/libGoogleQuery.cs \
-./lib/libConfig.cs \
-./lib/libResults.cs \
-./GUI/NewWebsite.cs
+./src/GUI/AboutDialog.cs \
+./src/GUI/Mainwindow.cs \
+./src/lib/libWebsites.cs \
+./src/lib/GoogleService.cs \
+./src/lib/libGoogleQuery.cs \
+./src/lib/libConfig.cs \
+./src/lib/libResults.cs \
+./src/GUI/NewWebsite.cs
 
 RESOURCES = \
 ./GTKRanker.glade \
@@ -23,10 +23,11 @@ glade-sharp \
 pango-sharp \
 System.Drawing \
 glade-sharp \
-gnome-sharp \
 System.Web.Services \
 gdk-sharp \
-gecko-sharp
+gecko-sharp \
+System.Data \
+Mono.Data.SqliteClient
 
 GAC_REFERENCES_BUILD = $(addprefix /r:, $(GAC_REFERENCES))
 
