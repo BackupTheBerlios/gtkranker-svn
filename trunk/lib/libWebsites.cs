@@ -10,19 +10,46 @@ namespace ranker.lib
 	public class libWebsites
 	{
 	
-		private XmlDocument GetXmlDocument()
+		// Xmldocument for the websites xml file
+		XmlDocument doc;
+		
+		public libWebsites()
 		{
-			// Open the XML File
+			//Open Website configuration file
+            this.LoadConfiguration();
+		}
+	
+		private void LoadConfiguration()
+        {
+        	doc = new XmlDocument();	
+			
 			string xmlpath = System.Environment.GetEnvironmentVariable("HOME");
 			xmlpath = Path.Combine(xmlpath, ".gtkranker/websites.xml");
-			XmlDocument doc = new XmlDocument();	
-			doc.Load(xmlpath);
-			return doc;
+			
+			// Check if the file exists
+			if(!File.Exists(xmlpath))
+			{
+				// Create an empty root element
+				doc.AppendChild(doc.CreateNode(XmlNodeType.Element, "sitelist", ""));
+				// Save the file
+				SaveConfiguration();
+			}
+			else
+			{
+				doc.Load(xmlpath);
+			}
+        }        
+        
+        
+		void SaveConfiguration()
+		{
+			string xmlpath = System.Environment.GetEnvironmentVariable("HOME");
+			xmlpath = Path.Combine(xmlpath, ".gtkranker/websites.xml");
+			doc.Save(xmlpath);	
 		}
 		
 		public void FillStoreNames(Gtk.TreeStore tree_store)
 		{
-			XmlDocument doc = GetXmlDocument();			
 			// Populate the model.
 			XmlNodeList nodes = doc.SelectNodes("//site");
 			foreach (XmlNode node in nodes)
@@ -35,7 +62,6 @@ namespace ranker.lib
 		
 		public string GetSiteUrl(string name)
 		{
-			XmlDocument doc = this.GetXmlDocument();
 			XmlNode node = doc.SelectSingleNode("//site[@name='" + name + "']");
 			string url = node.Attributes["url"].InnerText;
 			doc = null;
@@ -44,8 +70,6 @@ namespace ranker.lib
 		
 		public StringCollection GetSiteKeywords(string name)
 		{
-			Console.WriteLine("trying to get keywords");
-			XmlDocument doc = GetXmlDocument();			
 			// Populate the model.
 			string xpath = "/sitelist/site[@name='" + name + "']/keyphrase";
 			XmlNodeList nodes = doc.SelectNodes(xpath);
@@ -55,10 +79,37 @@ namespace ranker.lib
 			{
 				string kw = node.InnerText;
 				keywords.Add(kw);
-				Console.WriteLine("Added " + kw + " to array");
 			}
 			doc = null;
 			return keywords;
+		}
+		
+		public void addItem(string name, string url, string keywords)
+		{
+			//select root node
+			XmlNode foldernode = doc.SelectSingleNode("/sitelist");
+			//create our new site's element
+			XmlNode newitem =doc.CreateNode(XmlNodeType.Element, "site", "");
+			//Add the name and url attributes
+			string ns = newitem.GetNamespaceOfPrefix("bk");
+			XmlNode attr = doc.CreateNode(XmlNodeType.Attribute, "name",ns);
+			attr.Value = name;
+			newitem.Attributes.SetNamedItem(attr);
+			attr = doc.CreateNode(XmlNodeType.Attribute, "url",ns);
+			attr.Value = url;
+			newitem.Attributes.SetNamedItem(attr);
+			//Add the keywords childs
+			string [] aKeywords = keywords.Split(";"[0]);
+
+        	foreach (string s in aKeywords) 
+        	{
+				XmlNode keywordnode =doc.CreateNode(XmlNodeType.Element, "keyphrase", "");
+				keywordnode.InnerText = s;
+				newitem.AppendChild(keywordnode);    
+        	}
+			foldernode.AppendChild(newitem);
+			SaveConfiguration();
+			Console.WriteLine("Added new website");
 		}
 	}
 }
