@@ -7,18 +7,21 @@ using System.Xml.XPath;
 using System.IO;
 using ranker;
 using System.Collections.Specialized;
-
+using Gecko;
 namespace ranker.GUI
 {
 	public class Mainwindow
 	{
 		[Glade.Widget] TreeView tvSitePane;
+		[Glade.Widget] Frame frmResultsContent;
+		WebControl web;
        	public Mainwindow () 
         {
          	Application.Init();
 			Glade.XML gxml = new Glade.XML (null, "GTKRanker.glade", "MainWindow", null);
 			gxml.Autoconnect (this);
 			this.FillSiteList();
+			this.AddGeckoPanel();
 			Application.Run();
         }
 
@@ -49,7 +52,8 @@ namespace ranker.GUI
         	
         	StringCollection keywords = lws.GetSiteKeywords(sitename);
         	lib.libGoogleQuery lgc = new lib.libGoogleQuery();
-        	lgc.ProcessSite(url,keywords,sitename);
+        	string resulturl = lgc.ProcessSite(url,keywords,sitename);
+        	web.LoadUrl(resulturl);
         }
         
         public void FillSiteList()
@@ -77,6 +81,19 @@ namespace ranker.GUI
 			TreeStore store = (TreeStore)model;
 			string site = (string) store.GetValue(iter, 0);
 			return site;
+        }
+        
+        public void AddGeckoPanel()
+        {
+			// First we create a WebControl, using its default constructor
+			web = new WebControl();
+
+			// Then we ask it to show itself.
+			// This is required because of a Gecko bug, and doesn't actually show the control yet. 
+			web.Show();
+
+			// Next, we'll add the web control to our existing frame:
+			frmResultsContent.Add(web);
         }
 	}    
 }

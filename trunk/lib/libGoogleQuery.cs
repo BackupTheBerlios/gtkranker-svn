@@ -62,10 +62,12 @@ namespace ranker.lib
 			return backlinks;
 		}
 		
-		public void ProcessSite(string  url, StringCollection keywords, string sitename)
+		public string ProcessSite(string  url, StringCollection keywords, string sitename)
 		{
 			Console.WriteLine("Number of keywords:" + keywords.Count.ToString());
-			StringBuilder sbResult = new StringBuilder("<resultset>"+ System.Environment.NewLine);
+			StringBuilder sbResult = new StringBuilder("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
+			sbResult.Append("<?xml-stylesheet type=\"text/xsl\" href=\"" + System.Environment.GetEnvironmentVariable("HOME") + "/.gtkranker/result.xsl\"?>");
+			sbResult.Append("<resultset>"+ System.Environment.NewLine);
 			sbResult.Append("<keywords>"+ System.Environment.NewLine);
 			int position ;
 			
@@ -85,8 +87,8 @@ namespace ranker.lib
         	sbResult.Append("</backlinks>"+ System.Environment.NewLine);
         	sbResult.Append("</resultset>");
         	libResults lr = new libResults();
-        	lr.SaveResults(sbResult.ToString(),sitename);
-        	Console.WriteLine("# of backlinks: " + bl.ToString());
+        	string resultUrl = lr.SaveResults(sbResult.ToString(),sitename);
+        	return resultUrl;
 		}
 	}
 }
