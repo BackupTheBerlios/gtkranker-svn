@@ -8,7 +8,6 @@ of wizard to create a website
 - create a nicer looking xslt file
 
 UI:
-- make the sitelist/results resizable (how??)
 - Add a tab behind results that allows you to configure the website
 - For now only far less buttons are needed on top. I think of 
  - add site
