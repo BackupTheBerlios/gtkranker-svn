@@ -17,39 +17,39 @@ namespace ranker.lib
 			{
 				System.IO.Directory.CreateDirectory(resultsdir);
 			}
-			string filename = resultsdir + Path.DirectorySeparatorChar  + DateTime.Now.ToLongDateString() + ".xml"; 
+			string filename = resultsdir + Path.DirectorySeparatorChar  + DateTime.Now.ToString("yyyy-MM-dd-HHmm") + ".xml"; 
 			StreamWriter sw=File.CreateText(filename);
  			sw.Write(ResultXML);
   			sw.Close();
 			return filename;
 		}
 		
-		public string generateHtml(string xmlpath)
-		{
-			// Create the transform object.
-			XslTransform xslt = new XslTransform();
-			// Load the xsl stylesheet
+		//public string generateHtml(string xmlpath)
+		//{
+		//	// Create the transform object.
+		//	XslTransform xslt = new XslTransform();
+		//	// Load the xsl stylesheet
+		//	
+		//	// Load the xml file
+		//	string configpath = System.Environment.GetEnvironmentVariable("HOME");
+		//	xslt.Load(Path.Combine(configpath, ".gtkranker/result.xsl"));
+		//	XPathDocument data = new XPathDocument(xmlpath);
+		//	
+		//	// Define the path where to store the .html file
+		//	string htmlpath = System.Environment.GetEnvironmentVariable("HOME");
+		//	htmlpath= Path.Combine(htmlpath, ".gtkranker/" + DateTime.Now.ToString("yyyy-MM-dd-HHss") + ".html");
+		//	Console.Write(htmlpath);
+		//	// Create our writer to the html file
+		//	XmlUrlResolver writer = new XmlUrlResolver();
+		//	writer.ResolveUri(null,htmlpath);
+		//	// Do the transformation.
+		//	XmlReader xmlr = xslt.Transform(data,null, writer);
+		//	StreamWriter sw=File.CreateText(htmlpath);
+ 		//	sw.Write(xmlr.ReadOuterXml());
+  		//	sw.Close();
 			
-			// Load the xml file
-			string configpath = System.Environment.GetEnvironmentVariable("HOME");
-			xslt.Load(Path.Combine(configpath, ".gtkranker/result.xsl"));
-			XPathDocument data = new XPathDocument(xmlpath);
-			
-			// Define the path where to store the .html file
-			string htmlpath = System.Environment.GetEnvironmentVariable("HOME");
-			htmlpath= Path.Combine(htmlpath, ".gtkranker/" + DateTime.Now.ToLongDateString() + ".html");
-			Console.Write(htmlpath);
-			// Create our writer to the html file
-			XmlUrlResolver writer = new XmlUrlResolver();
-			writer.ResolveUri(null,htmlpath);
-			// Do the transformation.
-			XmlReader xmlr = xslt.Transform(data,null, writer);
-			StreamWriter sw=File.CreateText(htmlpath);
- 			sw.Write(xmlr.ReadOuterXml());
-  			sw.Close();
-			
-			return htmlpath;
-		}
+		//	return htmlpath;
+		//}
 		public string LoadResults()
 		{
 			return "";

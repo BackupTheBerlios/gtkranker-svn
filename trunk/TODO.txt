@@ -16,17 +16,23 @@ FUNC:
 - check at startup if there is a configuration dir, if not, create one 
 (move code from the configuration class). Add some sort of dialog or 
 wizard to ask for a google key.
+
 - Also check for the existence of a websites file and create some sort 
 of wizard to create a website
+
 - create a nicer looking xslt file
 
 - move to separate threads for the querying
 
+- Show differences with previous query's
+
 UI:
 - Add a tab behind results that allows you to configure the website
+
 - For now only far less buttons are needed on top. I think of 
  - add site (call the website wizard)
  - execute
  - about
  - maybe help, though that's not gonna do something for a while
+
 - make the about button work (how??)

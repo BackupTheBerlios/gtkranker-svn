@@ -97,7 +97,6 @@ namespace ranker.GUI
 		public void OnWindowDeleteEvent (object o, DeleteEventArgs args) 
         {
         	this.CloseWindow();
-            args.RetVal = true;
         }
         public void on_btnCancel_clicked(object o, EventArgs args) 
         {
