@@ -8,10 +8,10 @@ using System.Collections.Specialized;
 //using Finisar.SQLite;
 using Mono.Data.SqliteClient;
 
-namespace ranker.lib {
-
-	public class libWebsites {
-
+namespace ranker.lib
+{
+	public class libWebsites
+	{
 		IDbConnection dbcon;
 		IDbCommand dbcmd;
 		
@@ -19,14 +19,16 @@ namespace ranker.lib {
 		{
 			this.LoadConfiguration();
 			Console.WriteLine("libwebsites created");
-			try {
-
+			try
+			{
 				dbcmd.CommandText = "SELECT name, sql FROM sqlite_master WHERE type = 'table' ORDER BY name;";
 				IDataReader reader = dbcmd.ExecuteReader();
 				if (reader.Read())
+				{
 					Console.WriteLine("reads");
-				else {
-
+				}
+				else
+				{
 					dbcmd.CommandText = "create table websites (name varchar(50), url varchar (100)) ";
 					dbcmd.ExecuteNonQuery();
 					dbcmd.CommandText = "create table keywords (sitename varchar(50), keyphrase varchar (100)) ";
@@ -36,8 +38,8 @@ namespace ranker.lib {
 					
 				reader.Close();
 			}
-			catch (Exception ex) // need to catch nearly every exception, sqllite (or the wrapper) seems unreliable in throwing the right one {
-
+			catch (Exception ex) // need to catch nearly every exception, sqllite (or the wrapper) seems unreliable in throwing the right one
+			{
 				Console.WriteLine(ex.ToString());
 			}
 			this.EndConfiguration();
@@ -72,8 +74,8 @@ namespace ranker.lib {
 			// Populate the model.
 			dbcmd.CommandText = "select name from websites";
 			IDataReader reader = dbcmd.ExecuteReader();
-			while (reader.Read()) {
-
+			while (reader.Read())
+			{
 				string name = reader.GetString(0);
 				tree_store.AppendValues(name);
 			}
@@ -95,8 +97,8 @@ namespace ranker.lib {
 			StringCollection keywords=new StringCollection();
 			dbcmd.CommandText = "select keyphrase from keywords where sitename = '" + name.Replace("'","''") + "'";
 			IDataReader reader = dbcmd.ExecuteReader();			
-			while (reader.Read()) {
-
+			while (reader.Read())
+			{
 				keywords.Add(reader.GetString(0));				
 			}			
 			this.EndConfiguration();
