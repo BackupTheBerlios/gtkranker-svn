@@ -9,8 +9,8 @@ using System.IO;
 using ranker;
 namespace ranker.GUI
 {
-public class WebSites
-{
+	public class WebSites
+	{
 		[Glade.Widget] TreeView tvSiteList;
         public WebSites () 
         {
@@ -51,6 +51,6 @@ public class WebSites
 			string site = (string) store.GetValue(iter, 0);
         	Console.WriteLine("selected item = " + site);
         }
-}
+	}
 
 }

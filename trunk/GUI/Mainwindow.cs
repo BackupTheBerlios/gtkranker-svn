@@ -9,8 +9,8 @@ using ranker;
 using System.Collections.Specialized;
 namespace ranker.GUI
 {
-public class Mainwindow
-{
+	public class Mainwindow
+	{
 		[Glade.Widget] TreeView tvSitePane;
        	public Mainwindow () 
         {
@@ -87,5 +87,5 @@ public class Mainwindow
 			string site = (string) store.GetValue(iter, 0);
 			return site;
         }
-}    
+	}    
 }

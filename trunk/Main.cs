@@ -6,10 +6,9 @@ using ranker;
 
 public class gtkRanker
 {
-	
-        public static void Main (string[] args)
-        {
-        	new GUI.Mainwindow ();
-        }
+	public static void Main (string[] args)
+	{
+		new GUI.Mainwindow ();
+	}
 }
 
