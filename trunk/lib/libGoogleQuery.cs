@@ -15,6 +15,7 @@ namespace ranker.lib
 		{
 			ranker.lib.libConfig lc = new ranker.lib.libConfig(); 
 			googleKey = lc.GetGoogleKey();
+			lc = null;
 		}
 		public int GetPosition(string keyword, string url)
 		{
@@ -88,6 +89,7 @@ namespace ranker.lib
         	sbResult.Append("</resultset>");
         	libResults lr = new libResults();
         	string resultUrl = lr.SaveResults(sbResult.ToString(),sitename);
+        	sbResult = null;
         	return resultUrl;
 		}
 	}
