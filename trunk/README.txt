@@ -11,5 +11,8 @@ It's written in c# (mono) and gtk#. It should eventually, probably (;)) run on m
 It uses the google API to retrieve results, and as a consequense requires a google key.
 Once it has the results it stores them as an XML file and uses an .xsl to show the results.
 
-3. 
+3.What's with the different combines
+-------------------------------------
+The MD combine is for monodevelop and the SD combine is for sharpdevelop (the difference is between \ and / for the file paths)
+ 
 
