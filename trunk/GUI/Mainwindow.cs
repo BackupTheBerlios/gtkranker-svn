@@ -32,12 +32,12 @@ namespace ranker.GUI
             args.RetVal = true;
         }
         
-        public void OpenPreferences(object o, EventArgs args)
+        public void on_btnAdd_clicked(object o, EventArgs args)
         {
-        	WebSites ws = new WebSites();
+        	NewWebsite ws = new NewWebsite();
         } 
         
-        public void ShowAbout(object o, EventArgs args)
+        public void on_btnAbout_clicked(object o, EventArgs args)
         {
         //this is not working for some reason.
         	AboutDialog ad = new AboutDialog();

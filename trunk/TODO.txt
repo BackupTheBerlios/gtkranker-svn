@@ -20,6 +20,8 @@ wizard to ask for a google key.
 of wizard to create a website
 - create a nicer looking xslt file
 
+- move to separate threads for the querying
+
 UI:
 - Add a tab behind results that allows you to configure the website
 - For now only far less buttons are needed on top. I think of 
