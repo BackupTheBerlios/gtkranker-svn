@@ -12,9 +12,15 @@ namespace ranker.lib
 		{
 			// Open the XML File
 			string xmlpath = System.Environment.GetEnvironmentVariable("HOME");
-			xmlpath = Path.Combine(xmlpath, ".gtkranker/config.xml");
 			XmlDocument doc = new XmlDocument();	
-			doc.Load(xmlpath);
+			try{
+				xmlpath = Path.Combine(xmlpath, ".gtkranker/config.xml");
+				doc.Load(xmlpath);
+			}
+			catch(System.IO.FileNotFoundException)
+			{
+				Console.WriteLine("No configuration file found, please create one manually for now");			
+			}
 			return doc;
 		}
 		
