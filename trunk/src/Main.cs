@@ -16,7 +16,7 @@ public class gtkRanker
 		{
 			System.IO.Directory.CreateDirectory(configdir);
 		}
-		new GUI.Mainwindow ();
+		new ranker.GUI.Mainwindow ();
 	}
 }
 

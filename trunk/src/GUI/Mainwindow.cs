@@ -62,15 +62,15 @@ namespace ranker.GUI
         {
         	dialog = new MessageDialog (winMainWindow, DialogFlags.DestroyWithParent,MessageType.Question,ButtonsType.None, "Are you sure you want to delete " + GetSelectedSite());
         	dialog.Modal = true;
-        	dialog.AddButton ("Cancel", 0);
-        	dialog.AddButton ("Delete", 1);
+        	dialog.AddButton ("Cancel", Gtk.ResponseType.Cancel);
+        	dialog.AddButton ("Delete", Gtk.ResponseType.Ok);
             dialog.Response += new ResponseHandler (on_dialog_response);
             dialog.Run ();
             dialog.Destroy ();
         }
         void on_dialog_response (object obj, ResponseArgs args)
         {
-        	if (args.ResponseId == 1)
+        	if (args.ResponseId == Gtk.ResponseType.Ok)
         	{
         		lib.libWebsites lws = new lib.libWebsites(); 
         		lws.deleteItem(GetSelectedSite());
