@@ -1,5 +1,18 @@
 FUNC:
 - decide on how to store xml/html result files
+
+  They should somehow be sortable without reading every one of them. 
+  The reason being that I want to compare results to previous results, 
+  and I want the previous xml file fast.
+
+  Should the xml files have xsl info, or should I generate html from the 
+  xml + xslt files? Anyhow, I have to store the data in xml, so i can't 
+  delete that after generating html, so i end up with a huge results 
+  directory with both html and xml files for the same data.
+
+  If I use xsl info in the xml file, where do i get the xslt from, for 
+  now only the home/.gtkranker dir?
+
 - check at startup if there is a configuration dir, if not, create one 
 (move code from the configuration class). Add some sort of dialog or 
 wizard to ask for a google key.
@@ -10,7 +23,8 @@ of wizard to create a website
 UI:
 - Add a tab behind results that allows you to configure the website
 - For now only far less buttons are needed on top. I think of 
- - add site
+ - add site (call the website wizard)
  - execute
  - about
  - maybe help, though that's not gonna do something for a while
+- make the about button work (how??)
