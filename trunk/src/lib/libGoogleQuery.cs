@@ -89,7 +89,7 @@ namespace ranker.lib {
         	sbResult.Append("</backlinks>"+ System.Environment.NewLine);
         	sbResult.Append("</resultset>");
         	libResults lr = new libResults();
-        	string resultUrl = lr.SaveResults(sbResult.ToString(),sitename);
+        	string resultUrl = lr.SaveResults(sbResult.ToString(),sitename);		resultUrl = lr.generateHtml(resultUrl);
         	sbResult = null;
         	return resultUrl;
 		}
