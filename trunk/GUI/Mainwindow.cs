@@ -7,6 +7,7 @@ using System.Xml.XPath;
 using System.IO;
 using ranker;
 using System.Collections.Specialized;
+
 namespace ranker.GUI
 {
 	public class Mainwindow
@@ -48,17 +49,7 @@ namespace ranker.GUI
         	
         	StringCollection keywords = lws.GetSiteKeywords(sitename);
         	lib.libGoogleQuery lgc = new lib.libGoogleQuery();
-        	Console.WriteLine("Number of keywords:" + keywords.Count.ToString());
-        	for (int i=0;i<keywords.Count;i++)
-        	{
-        		Console.WriteLine("Querying for: " +keywords[i]); 
-        		lgc.GetPosition(keywords[i],url)	;
-        		Console.WriteLine("done Querying for: " +keywords[i]); 
-        		Console.WriteLine("###############");
-        	}
-        	Console.WriteLine("Getting number of backlinks");
-        	int bl = lgc.GetBackLinks(url);
-        	Console.WriteLine("# of backlinks: " + bl.ToString());
+        	lgc.ProcessSite(url,keywords,sitename);
         }
         
         public void FillSiteList()

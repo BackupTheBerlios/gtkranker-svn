@@ -3,7 +3,8 @@ using System;
 using ranker;
 using ranker.lib;
 using ranker.lib.GoogleService;
-
+using System.Collections.Specialized;
+using System.Text;
 namespace ranker.lib
 {
 	public class libGoogleQuery
@@ -59,6 +60,33 @@ namespace ranker.lib
 			
 			gs = null;
 			return backlinks;
+		}
+		
+		public void ProcessSite(string  url, StringCollection keywords, string sitename)
+		{
+			Console.WriteLine("Number of keywords:" + keywords.Count.ToString());
+			StringBuilder sbResult = new StringBuilder("<resultset>"+ System.Environment.NewLine);
+			sbResult.Append("<keywords>"+ System.Environment.NewLine);
+			int position ;
+			
+        	for (int i=0;i<keywords.Count;i++)
+        	{
+        		Console.WriteLine("Querying for: " +keywords[i]); 
+        		position = this.GetPosition(keywords[i],url)	;
+        		sbResult.Append("<keyword name=\"" + keywords[i] + "\">" + position + "</keyword>" + System.Environment.NewLine);
+        		Console.WriteLine("done Querying for: " +keywords[i]); 
+        		Console.WriteLine("###############");
+        	}
+        	Console.WriteLine("Getting number of backlinks");
+        	sbResult.Append("</keywords>"+ System.Environment.NewLine);
+        	sbResult.Append("<backlinks>"+ System.Environment.NewLine);
+        	int bl = this.GetBackLinks(url);
+        	sbResult.Append("" + bl.ToString() + System.Environment.NewLine);
+        	sbResult.Append("</backlinks>"+ System.Environment.NewLine);
+        	sbResult.Append("</resultset>");
+        	libResults lr = new libResults();
+        	lr.SaveResults(sbResult.ToString(),sitename);
+        	Console.WriteLine("# of backlinks: " + bl.ToString());
 		}
 	}
 }
