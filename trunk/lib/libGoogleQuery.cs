@@ -18,18 +18,28 @@ namespace ranker.lib
 		public int GetPosition(string keyword, string url)
 		{
 			GoogleSearchService gs = new GoogleSearchService();
+			int position = -1;
 			try
 			{
-				GoogleService.GoogleSearchResult r = gs.doGoogleSearch(googleKey, keyword,0, 1, false, "", false, "", "", "");
-				Console.WriteLine("Estimated results:" + r.estimatedTotalResultsCount.ToString());
-				Console.WriteLine("Search Time" + r.searchTime.ToString());
+				GoogleService.GoogleSearchResult r = gs.doGoogleSearch(googleKey, keyword,0, 10, false, "", false, "", "", "");
+				// find out if we are in these results
+				for (int i=0;i<r.resultElements.Length;i++)
+				{
+					if (r.resultElements[i].URL.IndexOf(url) >=0 )
+					{
+						position = i+1;
+						Console.WriteLine("We are rocking at number " + position);
+						break;
+					}
+				}	
 			}
 			catch (System.Web.Services.Protocols.SoapException ex) 
 			{
 				Console.Write(ex.Message);
 			} 
+			
 			gs = null;
-			return 0;
+			return position;
 		}
 	}
 }
