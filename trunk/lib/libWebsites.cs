@@ -32,7 +32,7 @@ namespace ranker.lib
 				// Create an empty root element
 				doc.AppendChild(doc.CreateNode(XmlNodeType.Element, "sitelist", ""));
 				// Save the file
-				SaveConfiguration();
+				this.SaveConfiguration();
 			}
 			else
 			{
@@ -57,14 +57,12 @@ namespace ranker.lib
 				string name = node.Attributes["name"].InnerText;
 				tree_store.AppendValues(name);
 			}
-			doc = null;
 		}
 		
 		public string GetSiteUrl(string name)
 		{
 			XmlNode node = doc.SelectSingleNode("//site[@name='" + name + "']");
 			string url = node.Attributes["url"].InnerText;
-			doc = null;
 			return url;
 		}
 		
@@ -80,7 +78,6 @@ namespace ranker.lib
 				string kw = node.InnerText;
 				keywords.Add(kw);
 			}
-			doc = null;
 			return keywords;
 		}
 		
@@ -108,8 +105,16 @@ namespace ranker.lib
 				newitem.AppendChild(keywordnode);    
         	}
 			foldernode.AppendChild(newitem);
-			SaveConfiguration();
+			this.SaveConfiguration();
 			Console.WriteLine("Added new website");
+		}
+		
+		public void deleteItem(string name)
+		{
+			XmlNode root = doc.DocumentElement;
+			XmlNode node = root.SelectSingleNode("//site[@name='" + name + "']");
+			root.RemoveChild(node);
+			this.SaveConfiguration();
 		}
 	}
 }

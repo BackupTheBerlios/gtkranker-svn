@@ -14,6 +14,8 @@ namespace ranker.GUI
 	{
 		[Glade.Widget] TreeView tvSitePane;
 		[Glade.Widget] Frame frmResultsContent;
+		[Glade.Widget] Window winMainWindow;
+		Gtk.MessageDialog dialog;
 		WebControl web;
        	public Mainwindow () 
         {
@@ -56,6 +58,25 @@ namespace ranker.GUI
         	web.LoadUrl(resulturl);
         }
         
+        public void on_btnDelete_clicked(object o, EventArgs args)
+        {
+        	dialog = new MessageDialog (winMainWindow, DialogFlags.DestroyWithParent,MessageType.Question,ButtonsType.None, "Are you sure you want to delete " + GetSelectedSite());
+        	dialog.Modal = true;
+        	dialog.AddButton ("Cancel", 0);
+        	dialog.AddButton ("Delete", 1);
+            dialog.Response += new ResponseHandler (on_dialog_response);
+            dialog.Run ();
+            dialog.Destroy ();
+        }
+        void on_dialog_response (object obj, ResponseArgs args)
+        {
+        	if (args.ResponseId == 1)
+        	{
+        		lib.libWebsites lws = new lib.libWebsites(); 
+        		lws.deleteItem(GetSelectedSite());
+        		lws = null;
+        	}            
+        }
         public void FillSiteList()
         {
         	// Create our model.
