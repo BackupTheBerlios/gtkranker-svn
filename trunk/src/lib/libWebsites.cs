@@ -5,6 +5,7 @@ using System.Xml;
 using System.Text;
 using System.Data;
 using System.Collections.Specialized;
+//using Finisar.SQLite;
 using Mono.Data.SqliteClient;
 
 namespace ranker.lib
@@ -25,7 +26,13 @@ namespace ranker.lib
 				if (reader.Read())
 					Console.WriteLine("reads");
 				else
+				{
+					dbcmd.CommandText = "create table websites (name varchar(50), url varchar (100)) ";
+					dbcmd.ExecuteNonQuery();
+					dbcmd.CommandText = "create table keywords (sitename varchar(50), keyphrase varchar (100)) ";
+					dbcmd.ExecuteNonQuery();
 					Console.WriteLine("not reads");
+				}
 					
 				reader.Close();
 			}
@@ -38,11 +45,12 @@ namespace ranker.lib
 	
 		private void LoadConfiguration()
         {
-			string connectionString = "URI=file:"+ranker.lib.libConfig.GetConfigPath() + Path.DirectorySeparatorChar + "websites.db";
+        		//the replace is needed because on windows the path is with \ while the uri needs /
+			string connectionString = "URI=file:"+ranker.lib.libConfig.GetConfigPath().Replace("\\","/") + "/websites.db";
 			Console.WriteLine(connectionString);
 			dbcon = new SqliteConnection(connectionString);
 			dbcon.Open();
-			dbcmd = dbcon.CreateCommand();        	
+        	dbcmd = dbcon.CreateCommand();        	
         }        
         
         private void EndConfiguration()
