@@ -2,6 +2,8 @@
 using System;
 using System.IO;
 using System.Xml;
+using System.Text;
+using System.Collections.Specialized;
 
 namespace ranker.lib
 {
@@ -34,12 +36,29 @@ namespace ranker.lib
 		public string GetSiteUrl(string name)
 		{
 			XmlDocument doc = this.GetXmlDocument();
-			Console.Write("got doc, name = " + name);
-			
 			XmlNode node = doc.SelectSingleNode("//site[@name='" + name + "']");
 			string url = node.Attributes["url"].InnerText;
 			doc = null;
 			return url;
+		}
+		
+		public StringCollection GetSiteKeywords(string name)
+		{
+			Console.WriteLine("trying to get keywords");
+			XmlDocument doc = GetXmlDocument();			
+			// Populate the model.
+			string xpath = "/sitelist/site[@name='" + name + "']/keyphrase";
+			XmlNodeList nodes = doc.SelectNodes(xpath);
+			int i=0;
+			StringCollection keywords=new StringCollection();
+			foreach (XmlNode node in nodes)
+			{
+				string kw = node.InnerText;
+				keywords.Add(kw);
+				Console.WriteLine("Added " + kw + " to array");
+			}
+			doc = null;
+			return keywords;
 		}
 	}
 }

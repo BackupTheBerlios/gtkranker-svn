@@ -6,6 +6,7 @@ using System.Xml;
 using System.Xml.XPath;
 using System.IO;
 using ranker;
+using System.Collections.Specialized;
 namespace ranker.GUI
 {
 public class Mainwindow
@@ -41,10 +42,20 @@ public class Mainwindow
         public void on_btnExecute_clicked(object o, EventArgs args)
         {
         	lib.libWebsites lws = new lib.libWebsites(); 
-			
-        	string url = lws.GetSiteUrl(this.GetSelectedSite());
+			string sitename= this.GetSelectedSite();
+        	string url = lws.GetSiteUrl(sitename);
         	Console.Write(url);
-        	ranker.lib.GoogleService gs = new ranker.lib.GoogleService();
+        	
+        	StringCollection keywords = lws.GetSiteKeywords(sitename);
+        	lib.libGoogleQuery lgc = new lib.libGoogleQuery();
+        	Console.WriteLine("Number of keywords:" + keywords.Count.ToString());
+        	for (int i=0;i<keywords.Count;i++)
+        	{
+        		Console.WriteLine("Querying for: " +keywords[i]); 
+        		lgc.GetPosition(keywords[i],url)	;
+        		Console.WriteLine("done Querying for: " +keywords[i]); 
+        		Console.WriteLine("###############");
+        	}
         	//gs.
         }
         
