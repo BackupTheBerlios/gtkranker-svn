@@ -24,9 +24,7 @@ namespace ranker.lib
 				dbcmd.CommandText = "SELECT name, sql FROM sqlite_master WHERE type = 'table' ORDER BY name;";
 				IDataReader reader = dbcmd.ExecuteReader();
 				if (reader.Read())
-				{
 					Console.WriteLine("reads");
-				}
 				else
 				{
 					dbcmd.CommandText = "create table websites (name varchar(50), url varchar (100)) ";
@@ -107,38 +105,24 @@ namespace ranker.lib
 		
 		public void addItem(string name, string url, string keywords)
 		{
-			//select root node
-//			XmlNode foldernode = doc.SelectSingleNode("/sitelist");
-//			//create our new site's element
-//			XmlNode newitem =doc.CreateNode(XmlNodeType.Element, "site", "");
-			//Add the name and url attributes
-//			string ns = newitem.GetNamespaceOfPrefix("bk");
-//			XmlNode attr = doc.CreateNode(XmlNodeType.Attribute, "name",ns);
-//			attr.Value = name;
-//			newitem.Attributes.SetNamedItem(attr);
-//			attr = doc.CreateNode(XmlNodeType.Attribute, "url",ns);
-//			attr.Value = url;
-//			newitem.Attributes.SetNamedItem(attr);
-//			//Add the keywords childs
-//			string [] aKeywords = keywords.Split(";"[0]);
-
-//        	foreach (string s in aKeywords) 
- //       	{
-//				XmlNode keywordnode =doc.CreateNode(XmlNodeType.Element, "keyphrase", "");
-//				keywordnode.InnerText = s;
-//				newitem.AppendChild(keywordnode);    
- //       	}
-//			foldernode.AppendChild(newitem);
-//			this.SaveConfiguration();
-//			Console.WriteLine("Added new website");
+			this.LoadConfiguration();
+			dbcmd.CommandText = "Insert into websites (name, url) values ('" + name +"','" + url +"')";
+			dbcmd.ExecuteNonQuery();
+			string [] aKeywords = keywords.Split(";"[0]);
+	        	foreach (string s in aKeywords) 
+ 	     	  	{
+				dbcmd.CommandText = "insert into keywords (sitename, keyphrase) values ('" + name + "','" + s + "')";
+				dbcmd.ExecuteNonQuery();
+        		}
+			this.EndConfiguration();
 		}
 		
 		public void deleteItem(string name)
 		{
-//			XmlNode root = doc.DocumentElement;
-//			XmlNode node = root.SelectSingleNode("//site[@name='" + name + "']");
-//			root.RemoveChild(node);
-//			this.SaveConfiguration();
+			this.LoadConfiguration();
+			dbcmd.CommandText = "delete from websites where name= '" + name+  "'";
+			dbcmd.ExecuteNonQuery();
+			this.EndConfiguration();
 		}
 	}
 }
