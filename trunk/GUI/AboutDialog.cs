@@ -4,8 +4,10 @@ using Gtk;
 using Glade;
 using Gnome;
 
-public class AboutDialog
+namespace ranker.GUI
 {
+	public class AboutDialog
+	{
 
         public AboutDialog() 
         {
@@ -19,4 +21,5 @@ public class AboutDialog
 			aboutdlg.Run();
 		}
        
+	}
 }
