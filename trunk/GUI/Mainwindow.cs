@@ -56,7 +56,6 @@ public class Mainwindow
         		Console.WriteLine("done Querying for: " +keywords[i]); 
         		Console.WriteLine("###############");
         	}
-        	//gs.
         }
         
         public void FillSiteList()
