@@ -41,7 +41,7 @@ namespace ranker.GUI
         
         public void on_btnAbout_clicked(object o, EventArgs args)
         {
-        //this is not working for some reason.
+        	//this is not working for some reason.
         	AboutDialog ad = new AboutDialog();
         }
         

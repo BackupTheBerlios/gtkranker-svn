@@ -25,6 +25,13 @@ of wizard to create a website
 - move to separate threads for the querying
 
 - Show differences with previous query's
+  how? will I store 1 previous result in an attribute
+
+- Add a tab with previous results.
+  How to collect previous results? Add them all to a dataset and write that 
+  to a temporary file? xsl file with multiple xml sources?....
+
+- Add saturation (number of pages in engine)
 
 UI:
 - Add a tab behind results that allows you to configure the website
