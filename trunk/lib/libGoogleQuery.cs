@@ -66,7 +66,7 @@ namespace ranker.lib
 		public string ProcessSite(string  url, StringCollection keywords, string sitename)
 		{
 			Console.WriteLine("Number of keywords:" + keywords.Count.ToString());
-			StringBuilder sbResult = new StringBuilder("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
+			StringBuilder sbResult = new StringBuilder("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"+ System.Environment.NewLine);
 			sbResult.Append("<?xml-stylesheet type=\"text/xsl\" href=\"" + System.Environment.GetEnvironmentVariable("HOME") + "/.gtkranker/result.xsl\"?>");
 			sbResult.Append("<resultset>"+ System.Environment.NewLine);
 			sbResult.Append("<keywords>"+ System.Environment.NewLine);
