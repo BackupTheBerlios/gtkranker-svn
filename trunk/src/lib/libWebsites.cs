@@ -16,26 +16,51 @@ namespace ranker.lib
 		
 		public libWebsites()
 		{
-			//Open Website configuration file
-            this.LoadConfiguration();
+			this.LoadConfiguration();
+			Console.WriteLine("libwebsites created");
+			try
+			{
+				dbcmd.CommandText = "SELECT name, sql FROM sqlite_master WHERE type = 'table' ORDER BY name;";
+				IDataReader reader = dbcmd.ExecuteReader();
+				if (reader.Read())
+					Console.WriteLine("reads");
+				else
+					Console.WriteLine("not reads");
+					
+				reader.Close();
+			}
+			catch (Exception ex) // need to catch nearly every exception, sqllite (or the wrapper) seems unreliable in throwing the right one
+			{
+				Console.WriteLine(ex.ToString());
+			}
+			this.EndConfiguration();
 		}
 	
 		private void LoadConfiguration()
         {
-			string connectionString = "URI=file:"+ranker.lib.libConfig.GetConfigPath() + Path.DirectorySeparatorChar + ".websites.db";
+			string connectionString = "URI=file:"+ranker.lib.libConfig.GetConfigPath() + Path.DirectorySeparatorChar + "websites.db";
+			Console.WriteLine(connectionString);
 			dbcon = new SqliteConnection(connectionString);
 			dbcon.Open();
 			dbcmd = dbcon.CreateCommand();        	
         }        
         
+        private void EndConfiguration()
+        {
+        	dbcmd = null;
+        	dbcon.Close();
+        	dbcon = null;
+        }
         
-		void SaveConfiguration()
+		private void SaveConfiguration()
 		{
 				
 		}
 		
+		
 		public void FillStoreNames(Gtk.TreeStore tree_store)
 		{
+			this.LoadConfiguration();
 			// Populate the model.
 			dbcmd.CommandText = "select name from websites";
 			IDataReader reader = dbcmd.ExecuteReader();
@@ -44,24 +69,29 @@ namespace ranker.lib
 				string name = reader.GetString(0);
 				tree_store.AppendValues(name);
 			}
+			this.EndConfiguration();
 		}
 		
 		public string GetSiteUrl(string name)
 		{
+			this.LoadConfiguration();
 			dbcmd.CommandText = "select url from websites where name = '" + name.Replace("'","''") + "'";
 			string url = (string)dbcmd.ExecuteScalar();
+			this.EndConfiguration();
 			return url;
 		}
 		
 		public StringCollection GetSiteKeywords(string name)
 		{
+			this.LoadConfiguration();
 			StringCollection keywords=new StringCollection();
 			dbcmd.CommandText = "select keyphrase from keywords where sitename = '" + name.Replace("'","''") + "'";
-			IDataReader reader = dbcmd.ExecuteReader();
+			IDataReader reader = dbcmd.ExecuteReader();			
 			while (reader.Read())
 			{
 				keywords.Add(reader.GetString(0));				
-			}
+			}			
+			this.EndConfiguration();
 			return keywords;
 		}
 		

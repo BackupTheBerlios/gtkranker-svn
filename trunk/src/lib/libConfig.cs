@@ -37,7 +37,11 @@ namespace ranker.lib
 		{
 			string configdir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 			configdir = System.IO.Path.Combine(configdir, "gtkranker");
-			return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+			if (!System.IO.Directory.Exists(configdir))
+			{
+				System.IO.Directory.CreateDirectory(configdir);
+			}
+			return configdir;
 		}
 	}
 }
