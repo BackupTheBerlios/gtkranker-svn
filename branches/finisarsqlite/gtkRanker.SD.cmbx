@@ -1,0 +1,16 @@
+<Combine fileversion="1.0" name="gtkRanker.SD" description="">
+  <StartMode startupentry="gtkRanker" single="True">
+    <Execute entry="gtkRanker" type="None" />
+  </StartMode>
+  <Entries>
+    <Entry filename=".\gtkRanker.SD.prjx" />
+  </Entries>
+  <Configurations active="Debug">
+    <Configuration name="Release">
+      <Entry name="gtkRanker" configurationname="Debug" build="False" />
+    </Configuration>
+    <Configuration name="Debug">
+      <Entry name="gtkRanker" configurationname="Debug" build="False" />
+    </Configuration>
+  </Configurations>
+</Combine>
