@@ -1,0 +1,17 @@
+FUNC:
+- decide on how to store xml/html result files
+- check at startup if there is a configuration dir, if not, create one 
+(move code from the configuration class). Add some sort of dialog or 
+wizard to ask for a google key.
+- Also check for the existence of a websites file and create some sort 
+of wizard to create a website
+- create a nicer looking xslt file
+
+UI:
+- make the sitelist/results resizable (how??)
+- Add a tab behind results that allows you to configure the website
+- For now only far less buttons are needed on top. I think of 
+ - add site
+ - execute
+ - about
+ - maybe help, though that's not gonna do something for a while
