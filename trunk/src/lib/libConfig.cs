@@ -11,7 +11,7 @@ namespace ranker.lib
 		private XmlDocument GetXmlDocument()
 		{
 			// Open the XML File
-			string xmlpath = System.Environment.GetEnvironmentVariable("HOME");
+			string xmlpath = ranker.lib.libConfig.GetConfigPath();
 			XmlDocument doc = new XmlDocument();	
 			try{
 				xmlpath = Path.Combine(GetConfigPath(), "config.xml");
