@@ -1,5 +1,4 @@
 // created on 05/17/2004 at 16:38
-// created on 05/01/2004 at 15:20
 using System;
 using Gtk;
 using Glade; 
@@ -55,22 +54,37 @@ namespace ranker.GUI
 		void SaveConfiguration()
 		{
 			string xmlpath = System.Environment.GetEnvironmentVariable("HOME");
-			xmlpath = Path.Combine(xmlpath, ".monobrowser/websites.xml");
+			xmlpath = Path.Combine(xmlpath, ".gtkranker/websites.xml");
 			doc.Save(xmlpath);	
 		}
 		
 		public void addItem(string name, string url, string keywords)
 		{
+			//select root node
 			XmlNode foldernode = doc.SelectSingleNode("/sitelist");
+			//create our new site's element
 			XmlNode newitem =doc.CreateNode(XmlNodeType.Element, "site", "");
-			newitem.Attributes["name"].Value = name;
-			newitem.Attributes["url"].Value = url;
-				
+			//Add the name and url attributes
+			string ns = newitem.GetNamespaceOfPrefix("bk");
+			XmlNode attr = doc.CreateNode(XmlNodeType.Attribute, "name",ns);
+			attr.Value = name;
+			newitem.Attributes.SetNamedItem(attr);
+			attr = doc.CreateNode(XmlNodeType.Attribute, "url",ns);
+			attr.Value = url;
+			newitem.Attributes.SetNamedItem(attr);
+			//Add the keywords childs
+			string [] aKeywords = keywords.Split(";"[0]);
+
+        	foreach (string s in aKeywords) 
+        	{
+				XmlNode keywordnode =doc.CreateNode(XmlNodeType.Element, "keyphrase", "");
+				keywordnode.InnerText = s;
+				newitem.AppendChild(keywordnode);    
+        	}
 			foldernode.AppendChild(newitem);
-				
-			
-			
 			SaveConfiguration();
+			Console.WriteLine("Added new website");
+			this.CloseWindow();
 		}
 		
 		public void on_btnApply_clicked(object o, EventArgs args)
@@ -78,5 +92,16 @@ namespace ranker.GUI
 			Console.WriteLine("Adding:" + tbName.Text+ " "+  tbUrl.Text+ " "+  tbKeywords.Text);
 			this.addItem(tbName.Text, tbUrl.Text, tbKeywords.Text);
 		}
+		
+		public void OnWindowDeleteEvent (object o, DeleteEventArgs args) 
+        {
+        	this.CloseWindow();
+            args.RetVal = true;
+        }
+        
+        public void CloseWindow()
+        {
+			//find out how to close the window       
+        }
 	}
 }
