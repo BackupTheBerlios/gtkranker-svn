@@ -22,7 +22,7 @@ namespace ranker.lib
 	
 		private void LoadConfiguration()
         {
-			string connectionString = "URI=file:"+System.Environment.GetEnvironmentVariable("HOME")+ Path.DirectorySeparatorChar + ".gtkranker/websites.db";
+			string connectionString = "URI=file:"+ranker.lib.libConfig.GetConfigPath() + Path.DirectorySeparatorChar + ".websites.db";
 			dbcon = new SqliteConnection(connectionString);
 			dbcon.Open();
 			dbcmd = dbcon.CreateCommand();        	

@@ -14,7 +14,7 @@ namespace ranker.lib
 			string xmlpath = System.Environment.GetEnvironmentVariable("HOME");
 			XmlDocument doc = new XmlDocument();	
 			try{
-				xmlpath = Path.Combine(xmlpath, ".gtkranker/config.xml");
+				xmlpath = Path.Combine(GetConfigPath(), "config.xml");
 				doc.Load(xmlpath);
 			}
 			catch(System.IO.FileNotFoundException)
@@ -31,6 +31,13 @@ namespace ranker.lib
 			string url = node.InnerText;
 			doc = null;
 			return url;
+		}
+		
+		public static string GetConfigPath()
+		{
+			string configdir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+			configdir = System.IO.Path.Combine(configdir, ".gtkranker");
+			return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 		}
 	}
 }

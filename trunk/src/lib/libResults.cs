@@ -10,8 +10,8 @@ namespace ranker.lib
 	{
 		public string SaveResults(string ResultXML, string website)
 		{
-			string resultsdir = System.Environment.GetEnvironmentVariable("HOME");
-			resultsdir = Path.Combine(resultsdir, ".gtkranker" + Path.DirectorySeparatorChar + "results"+ Path.DirectorySeparatorChar + website);
+			string resultsdir = ranker.lib.libConfig.GetConfigPath() ;
+			resultsdir = resultsdir +  Path.DirectorySeparatorChar + "results"+ Path.DirectorySeparatorChar + website;
 			
 			if (!Directory.Exists(resultsdir))
 			{
