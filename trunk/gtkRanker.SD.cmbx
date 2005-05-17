@@ -3,7 +3,7 @@
     <Execute entry="gtkRanker" type="None" />
   </StartMode>
   <Entries>
-    <Entry filename=".\gtkRanker.SD.prjx" />
+    <Entry filename="./gtkRanker.SD.prjx" />
   </Entries>
   <Configurations active="Debug">
     <Configuration name="Release">

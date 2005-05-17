@@ -2,8 +2,7 @@
   <Contents>
     <File name="./src/Main.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./AssemblyInfo.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name="./GTKRanker.glade" subtype="Code" buildaction="EmbedAsResource" dependson="" data="" />
-    <File name="./src/GUI/AboutDialog.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./src/GUI/About.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./MonoIcon.png" subtype="Code" buildaction="EmbedAsResource" dependson="" data="" />
     <File name="./src/GUI" subtype="Directory" buildaction="Compile" dependson="" data="" />
     <File name="./src/GUI/Mainwindow.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
@@ -14,6 +13,7 @@
     <File name="./src/lib/libConfig.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./src/lib/libResults.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name="./src/GUI/NewWebsite.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./GTKRanker2.glade" subtype="Code" buildaction="EmbedAsResource" dependson="" data="" />
   </Contents>
   <References>
     <Reference type="Gac" refto="System.Drawing.dll" localcopy="True" />

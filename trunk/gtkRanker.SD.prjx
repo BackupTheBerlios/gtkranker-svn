@@ -1,19 +1,19 @@
 <Project name="gtkRanker" description="" newfilesearch="None" enableviewstate="True" version="1.1" projecttype="C#">
   <Contents>
-    <File name=".\src\Main.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\AssemblyInfo.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\GTKRanker.glade" subtype="Code" buildaction="EmbedAsResource" dependson="" data="" />
-    <File name=".\src\GUI\AboutDialog.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\MonoIcon.png" subtype="Code" buildaction="EmbedAsResource" dependson="" data="" />
-    <File name=".\src\GUI" subtype="Directory" buildaction="Compile" dependson="" data="" />
-    <File name=".\src\GUI\Mainwindow.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\src\lib" subtype="Directory" buildaction="Compile" dependson="" data="" />
-    <File name=".\src\lib\libWebsites.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\src\lib\GoogleService.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\src\lib\libGoogleQuery.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\src\lib\libConfig.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\src\lib\libResults.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
-    <File name=".\src\GUI\NewWebsite.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./src/Main.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./AssemblyInfo.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./GTKRanker.glade" subtype="Code" buildaction="EmbedAsResource" dependson="" data="" />
+    <File name="./src/GUI/AboutDialog.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./MonoIcon.png" subtype="Code" buildaction="EmbedAsResource" dependson="" data="" />
+    <File name="./src/GUI" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name="./src/GUI/Mainwindow.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./src/lib" subtype="Directory" buildaction="Compile" dependson="" data="" />
+    <File name="./src/lib/libWebsites.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./src/lib/GoogleService.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./src/lib/libGoogleQuery.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./src/lib/libConfig.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./src/lib/libResults.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name="./src/GUI/NewWebsite.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
   </Contents>
   <References>
     <Reference type="Gac" refto="System.Drawing.dll" localcopy="True" />
@@ -29,13 +29,13 @@
   <Configuration runwithwarnings="False" name="Debug">
     <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" nowarn="" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Exe" definesymbols="" generatexmldocumentation="False" win32Icon="" />
     <Execution commandlineparameters="" consolepause="True" />
-    <Output directory=".\bin\Debug" assembly="gtkRanker" executeScript="" executeBeforeBuild="" executeAfterBuild="" />
+    <Output directory="./bin/Debug" assembly="gtkRanker" executeScript="" executeBeforeBuild="" executeAfterBuild="" />
   </Configuration>
   <Configurations active="Debug">
     <Configuration runwithwarnings="False" name="Debug">
       <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" nowarn="" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Exe" definesymbols="" generatexmldocumentation="False" win32Icon="" />
       <Execution commandlineparameters="" consolepause="True" />
-      <Output directory=".\bin\Debug" assembly="gtkRanker" executeScript="" executeBeforeBuild="" executeAfterBuild="" />
+      <Output directory="./bin/Debug" assembly="gtkRanker" executeScript="" executeBeforeBuild="" executeAfterBuild="" />
     </Configuration>
     <Configuration runwithwarnings="False" name="Release">
       <CodeGeneration runtime="MsNet" compiler="Csc" warninglevel="4" nowarn="" includedebuginformation="True" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" target="Exe" definesymbols="" generatexmldocumentation="False" win32Icon="" />
