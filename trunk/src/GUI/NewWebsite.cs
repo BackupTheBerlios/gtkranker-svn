@@ -23,7 +23,7 @@ namespace ranker.GUI {
 		public NewWebsite () 
         {
         	//Connect glade file
-        	Glade.XML gxml = new Glade.XML (null, "GTKRanker.glade", "winNewWebsite", null);
+        	Glade.XML gxml = new Glade.XML (null, "GTKRanker2.glade", "winNewWebsite", null);
             gxml.Autoconnect (this);  
         }
  		public void on_btnApply_clicked(object o, EventArgs args)

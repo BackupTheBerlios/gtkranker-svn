@@ -29,9 +29,13 @@ namespace ranker.lib {
 			string xslpath = ranker.lib.libConfig.GetConfigPath() +  Path.DirectorySeparatorChar + "result.xsl";
 			XslTransform xslt = new XslTransform();
 			xslt.Load(xslpath);
-			string htmlpath =  ranker.lib.libConfig.GetConfigPath() + Path.DirectorySeparatorChar +"temp.html";
-			xslt.Transform(xmlpath,htmlpath ); 
-			return htmlpath;
+			XmlDocument xmlDoc = new XmlDocument();
+			xmlDoc.Load(xmlpath);
+			
+			StringWriter sw = new StringWriter(); 
+			xslt.Transform(xmlDoc, null, sw, null);
+
+			return sw.ToString(); 
 		}
 
 		public string LoadResults()

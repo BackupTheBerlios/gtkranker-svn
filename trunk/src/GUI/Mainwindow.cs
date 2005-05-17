@@ -15,20 +15,22 @@ namespace ranker.GUI {
 		[Glade.Widget] TreeView tvSitePane;
 		[Glade.Widget] Frame frmResultsContent;
 		[Glade.Widget] Window winMainWindow;
+		[Glade.Widget] Gtk.TreeStore tree_store;
 		Gtk.MessageDialog dialog;
 		WebControl web;
        	public Mainwindow () 
         {
          	Application.Init();
-			Glade.XML gxml = new Glade.XML (null, "GTKRanker.glade", "winMainWindow", null);
+			Glade.XML gxml = new Glade.XML (null, "GTKRanker2.glade", "winMainWindow", null);
 			gxml.Autoconnect (this);
+			winMainWindow.DeleteEvent += new DeleteEventHandler (OnWindowDelete);
 			this.FillSiteList();
 			this.AddGeckoPanel();
 			Application.Run();
         }
 
         /* Connect the Signals defined in Glade */
-        public void OnWindowDeleteEvent (object o, DeleteEventArgs args) 
+        public void OnWindowDelete (object o, DeleteEventArgs args) 
         {
             Application.Quit ();
             args.RetVal = true;
@@ -36,17 +38,27 @@ namespace ranker.GUI {
         
         public void on_btnAdd_clicked(object o, EventArgs args)
         {
+			
         	NewWebsite ws = new NewWebsite();
+
+			tree_store.Clear();		
+			this.FillSiteList();
         } 
         
-        public void on_btnAbout_clicked(object o, EventArgs args)
+		public void on_btnExit_clicked(object o, EventArgs args)
         {
-        	//this is not working for some reason.
-        	AboutDialog ad = new AboutDialog();
+			Application.Quit();
+		}
+
+        public void on_btnAbout_clicked(object o, EventArgs args)
+        {        	
+        	About ad = new About();
         }
         
         public void on_btnExecute_clicked(object o, EventArgs args)
         {
+			try
+			{
         	lib.libWebsites lws = new lib.libWebsites(); 
 			string sitename= this.GetSelectedSite();
         	string url = lws.GetSiteUrl(sitename);
@@ -55,7 +67,8 @@ namespace ranker.GUI {
         	StringCollection keywords = lws.GetSiteKeywords(sitename);
         	lib.libGoogleQuery lgc = new lib.libGoogleQuery();
         	string resulturl = lgc.ProcessSite(url,keywords,sitename);
-        	web.LoadUrl(resulturl);
+			web.RenderData (resulturl, "file:///tmp", "text/html");
+			}
         }
         
         public void on_btnDelete_clicked(object o, EventArgs args)
@@ -68,19 +81,22 @@ namespace ranker.GUI {
             dialog.Run ();
             dialog.Destroy ();
         }
+
         void on_dialog_response (object obj, ResponseArgs args)
         {
         	if (args.ResponseId == Gtk.ResponseType.Ok) {
 
         		lib.libWebsites lws = new lib.libWebsites(); 
         		lws.deleteItem(GetSelectedSite());
-        		lws = null;
+				lws = null;
+				tree_store.Clear();		
+				this.FillSiteList();
         	}            
         }
         public void FillSiteList()
         {
         	// Create our model.
-            Gtk.TreeStore tree_store = new TreeStore(typeof(string));
+            tree_store = new TreeStore(typeof(string));
 			
 			// Assign the model.
 			tvSitePane.Model = tree_store;

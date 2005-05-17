@@ -19,18 +19,40 @@ namespace ranker.lib {
 			}
 			catch(System.IO.FileNotFoundException) {
 
-				Console.WriteLine("No configuration file found, please create one manually for now");			
+				Console.WriteLine("No configuration file found, please create one manually for now");		
 			}
 			return doc;
 		}
+
+/*		public void CreateConfigFile()
+		{
+			Glade.XML gxml = new Glade.XML (null, "GTKRanker.glade", "winGoogleKey", null);
+			gxml.Autoconnect (this);
+			public void on_btnKeyOK_clicked(object o, EventArgs args)
+			{
+				string xmlpath = ranker.lib.libConfig.GetConfigPath();
+				XmlDocument doc = new XmlDocument();	
+				xmlpath = Path.Combine(GetConfigPath(), "config.xml");
+				doc.Load(xmlpath);
+				
+				
+			}
+			
+			public void on_btnKeyOK_clicked(object o, EventArgs args)
+			{
+
+			}		
+		}
+*/
+
 		
 		public string GetGoogleKey()
 		{
 			XmlDocument doc = this.GetXmlDocument();
 			XmlNode node = doc.SelectSingleNode("//googlekey");
-			string url = node.InnerText;
+			string key = node.InnerText;
 			doc = null;
-			return url;
+			return key;
 		}
 		
 		public static string GetConfigPath()
