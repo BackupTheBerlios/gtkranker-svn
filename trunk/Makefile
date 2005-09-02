@@ -11,7 +11,8 @@ SOURCES = \
 ./src/lib/libGoogleQuery.cs \
 ./src/lib/libConfig.cs \
 ./src/lib/libResults.cs \
-./src/GUI/NewWebsite.cs
+./src/GUI/NewWebsite.cs \
+./src/GUI/GoogleKey.cs
 
 RESOURCES = \
 ./GTKRanker.glade \

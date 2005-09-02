@@ -18,11 +18,20 @@ namespace ranker.GUI {
 		[Glade.Widget] Gtk.TreeStore tree_store;
 		Gtk.MessageDialog dialog;
 		WebControl web;
-       	public Mainwindow () 
+       	
+		public Mainwindow () 
         {
-         	Application.Init();
-			Glade.XML gxml = new Glade.XML (null, "GTKRanker2.glade", "winMainWindow", null);
+	        Application.Init();
+			Glade.XML gxml = new Glade.XML (null, "GTKRanker.glade", "winMainWindow", null);
 			gxml.Autoconnect (this);
+			
+			// Get the GRE for Gecko# Path in Windows systems
+			String mozillaEnvPath = System.Environment.GetEnvironmentVariable("GECKOSHILLA_BASEPATH");
+			if(mozillaEnvPath != null && mozillaEnvPath.Length != 0)
+			{
+	    		Gecko.WebControl.CompPath = mozillaEnvPath;
+			}
+			
 			winMainWindow.DeleteEvent += new DeleteEventHandler (OnWindowDelete);
 			this.FillSiteList();
 			this.AddGeckoPanel();
@@ -52,22 +61,27 @@ namespace ranker.GUI {
 
         public void on_btnAbout_clicked(object o, EventArgs args)
         {        	
-        	About ad = new About();
+        	//About ad = new About();
         }
         
         public void on_btnExecute_clicked(object o, EventArgs args)
         {
 			try
 			{
-        	lib.libWebsites lws = new lib.libWebsites(); 
-			string sitename= this.GetSelectedSite();
-        	string url = lws.GetSiteUrl(sitename);
-        	Console.Write(url);
+        		lib.libWebsites lws = new lib.libWebsites(); 
+				string sitename= this.GetSelectedSite();
+        		string url = lws.GetSiteUrl(sitename);
+	        	Console.Write(url);
         	
-        	StringCollection keywords = lws.GetSiteKeywords(sitename);
-        	lib.libGoogleQuery lgc = new lib.libGoogleQuery();
-        	string resulturl = lgc.ProcessSite(url,keywords,sitename);
-			web.RenderData (resulturl, "file:///tmp", "text/html");
+        		StringCollection keywords = lws.GetSiteKeywords(sitename);
+        		lib.libGoogleQuery lgc = new lib.libGoogleQuery();
+	        	string resulturl = lgc.ProcessSite(url,keywords,sitename);
+				web.RenderData (resulturl, "file:///tmp", "text/html");
+			}
+			
+			catch(Exception e)
+			{
+				Console.WriteLine("Error");//no se donde, daba error por no haber catch
 			}
         }
         
@@ -77,15 +91,15 @@ namespace ranker.GUI {
         	dialog.Modal = true;
         	dialog.AddButton ("Cancel", Gtk.ResponseType.Cancel);
         	dialog.AddButton ("Delete", Gtk.ResponseType.Ok);
-            dialog.Response += new ResponseHandler (on_dialog_response);
-            dialog.Run ();
+	        dialog.Response += new ResponseHandler (on_dialog_response);
+           	dialog.Run ();
             dialog.Destroy ();
         }
 
         void on_dialog_response (object obj, ResponseArgs args)
         {
-        	if (args.ResponseId == Gtk.ResponseType.Ok) {
-
+        	if (args.ResponseId == Gtk.ResponseType.Ok) 
+        	{
         		lib.libWebsites lws = new lib.libWebsites(); 
         		lws.deleteItem(GetSelectedSite());
 				lws = null;
@@ -95,15 +109,15 @@ namespace ranker.GUI {
         }
         public void FillSiteList()
         {
-        	// Create our model.
-            tree_store = new TreeStore(typeof(string));
+			// Create our model.
+	        tree_store = new TreeStore(typeof(string));
 			
 			// Assign the model.
 			tvSitePane.Model = tree_store;
 			
 			// Set the column
 			tvSitePane.AppendColumn("Name", new CellRendererText(), "text", 0);
-			
+		
 			lib.libWebsites lws = new lib.libWebsites();
 			lws.FillStoreNames(tree_store);
         }

@@ -8,42 +8,43 @@ namespace ranker.lib {
 
 	public class libConfig {
 
+
+
 		private XmlDocument GetXmlDocument()
 		{
 			// Open the XML File
 			string xmlpath = ranker.lib.libConfig.GetConfigPath();
-			XmlDocument doc = new XmlDocument();	
+			XmlDocument doc = new XmlDocument();
+			xmlpath = Path.Combine(GetConfigPath(), "config.xml");	
 			try{
-				xmlpath = Path.Combine(GetConfigPath(), "config.xml");
+				//xmlpath = Path.Combine(GetConfigPath(), "config.xml");
 				doc.Load(xmlpath);
 			}
 			catch(System.IO.FileNotFoundException) {
 
-				Console.WriteLine("No configuration file found, please create one manually for now");		
+				Console.WriteLine("No configuration file found, please create one manually for now");
+				this.CreateConfigFile();
+				doc.Load(xmlpath);		
+				Console.WriteLine("Configuration file created");
 			}
 			return doc;
 		}
 
-/*		public void CreateConfigFile()
+		public void CreateConfigFile()
 		{
-			Glade.XML gxml = new Glade.XML (null, "GTKRanker.glade", "winGoogleKey", null);
-			gxml.Autoconnect (this);
-			public void on_btnKeyOK_clicked(object o, EventArgs args)
-			{
+			ranker.GUI.GoogleKey Gk = new ranker.GUI.GoogleKey();
+			// o bien: new ranker.GUI.GoogleKey();
+		}
+		
+		public void WriteConfigFile(string gk)
+		{
 				string xmlpath = ranker.lib.libConfig.GetConfigPath();
 				XmlDocument doc = new XmlDocument();	
 				xmlpath = Path.Combine(GetConfigPath(), "config.xml");
-				doc.Load(xmlpath);
-				
-				
-			}
-			
-			public void on_btnKeyOK_clicked(object o, EventArgs args)
-			{
-
-			}		
+				doc.LoadXml("<googlekey>"+gk+"</googlekey>");
+				doc.Save(xmlpath);
 		}
-*/
+
 
 		
 		public string GetGoogleKey()

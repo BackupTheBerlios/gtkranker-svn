@@ -36,16 +36,18 @@ namespace ranker.lib
 					
 				reader.Close();
 			}
+			
 			catch (Exception ex) // need to catch nearly every exception, sqllite (or the wrapper) seems unreliable in throwing the right one
 			{
 				Console.WriteLine(ex.ToString());
 			}
+			
 			this.EndConfiguration();
 		}
 	
 		private void LoadConfiguration()
         {
-        		//the replace is needed because on windows the path is with \ while the uri needs /
+        	//the replace is needed because on windows the path is with \ while the uri needs /
 			string connectionString = "URI=file:"+ranker.lib.libConfig.GetConfigPath().Replace("\\","/") + "/websites.db";
 			Console.WriteLine(connectionString);
 			dbcon = new SqliteConnection(connectionString);
@@ -72,11 +74,13 @@ namespace ranker.lib
 			// Populate the model.
 			dbcmd.CommandText = "select name from websites";
 			IDataReader reader = dbcmd.ExecuteReader();
+			
 			while (reader.Read())
 			{
 				string name = reader.GetString(0);
 				tree_store.AppendValues(name);
 			}
+			
 			this.EndConfiguration();
 		}
 		
@@ -94,11 +98,13 @@ namespace ranker.lib
 			this.LoadConfiguration();
 			StringCollection keywords=new StringCollection();
 			dbcmd.CommandText = "select keyphrase from keywords where sitename = '" + name.Replace("'","''") + "'";
-			IDataReader reader = dbcmd.ExecuteReader();			
+			IDataReader reader = dbcmd.ExecuteReader();		
+				
 			while (reader.Read())
 			{
 				keywords.Add(reader.GetString(0));				
 			}			
+			
 			this.EndConfiguration();
 			return keywords;
 		}
@@ -109,11 +115,13 @@ namespace ranker.lib
 			dbcmd.CommandText = "Insert into websites (name, url) values ('" + name +"','" + url +"')";
 			dbcmd.ExecuteNonQuery();
 			string [] aKeywords = keywords.Split(";"[0]);
-	        	foreach (string s in aKeywords) 
- 	     	  	{
+	        
+	        foreach (string s in aKeywords) 
+ 	     	{
 				dbcmd.CommandText = "insert into keywords (sitename, keyphrase) values ('" + name + "','" + s + "')";
 				dbcmd.ExecuteNonQuery();
-        		}
+        	}
+			
 			this.EndConfiguration();
 		}
 		

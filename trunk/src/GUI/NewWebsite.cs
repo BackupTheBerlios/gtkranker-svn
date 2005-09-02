@@ -21,12 +21,13 @@ namespace ranker.GUI {
 		
 		
 		public NewWebsite () 
-        {
-        	//Connect glade file
-        	Glade.XML gxml = new Glade.XML (null, "GTKRanker2.glade", "winNewWebsite", null);
-            gxml.Autoconnect (this);  
-        }
- 		public void on_btnApply_clicked(object o, EventArgs args)
+	        {
+	        	//Connect glade file
+        		Glade.XML gxml = new Glade.XML (null, "GTKRanker.glade", "winNewWebsite", null);
+        	   	gxml.Autoconnect (this);  
+	        }
+	
+		public void on_btnApply_clicked(object o, EventArgs args)
 		{
 			Console.WriteLine("Adding:" + tbName.Text+ " "+  tbUrl.Text+ " "+  tbKeywords.Text);
 			libWebsites ws = new libWebsites();
@@ -36,16 +37,18 @@ namespace ranker.GUI {
 		}
 		
 		public void OnWindowDeleteEvent (object o, DeleteEventArgs args) 
-        {
-        	this.CloseWindow();
-        }
-        public void on_btnCancel_clicked(object o, EventArgs args) 
-        {
-        	this.CloseWindow();
-        }
-        public void CloseWindow()
-        {
-        	winNewWebsite.Destroy(); 
-        }
+	        {
+        		this.CloseWindow();
+        	}
+		
+	        public void on_btnCancel_clicked(object o, EventArgs args) 
+        	{
+        		this.CloseWindow();
+        	}
+		
+	        public void CloseWindow()
+        	{
+        		winNewWebsite.Destroy(); 
+        	}
 	}
 }

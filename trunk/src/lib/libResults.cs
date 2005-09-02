@@ -13,10 +13,11 @@ namespace ranker.lib {
 			string resultsdir = ranker.lib.libConfig.GetConfigPath() ;
 			resultsdir = resultsdir +  Path.DirectorySeparatorChar + "results"+ Path.DirectorySeparatorChar + website;
 			
-			if (!Directory.Exists(resultsdir)) {
-
+			if (!Directory.Exists(resultsdir)) 
+			{
 				System.IO.Directory.CreateDirectory(resultsdir);
 			}
+			
 			string filename = resultsdir + Path.DirectorySeparatorChar  + DateTime.Now.ToString("yyyy-MM-dd-HHmm") + ".xml"; 
 			StreamWriter sw=File.CreateText(filename);
  			sw.Write(ResultXML);
