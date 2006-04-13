@@ -2,135 +2,198 @@
 using System;
 using System.IO;
 using System.Xml;
+using System.Xml.XPath;
 using System.Text;
-using System.Data;
 using System.Collections.Specialized;
-//using Finisar.SQLite;
-using Mono.Data.SqliteClient;
 
 namespace ranker.lib
 {
 	public class libWebsites
 	{
-		IDbConnection dbcon;
-		IDbCommand dbcmd;
-		
-		public libWebsites()
+	
+		private XmlDocument GetXmlDocument()
 		{
-			this.LoadConfiguration();
-			Console.WriteLine("libwebsites created");
+			// Open the XML File
+			string xmlpath = ranker.lib.libConfig.GetConfigPath();
+			XmlDocument doc = new XmlDocument();
+			xmlpath = Path.Combine(xmlpath, "sites.xml");	
 			try
 			{
-				dbcmd.CommandText = "SELECT name, sql FROM sqlite_master WHERE type = 'table' ORDER BY name;";
-				IDataReader reader = dbcmd.ExecuteReader();
-				if (reader.Read())
-					Console.WriteLine("reads");
-				else
-				{
-					dbcmd.CommandText = "create table websites (name varchar(50), url varchar (100)) ";
-					dbcmd.ExecuteNonQuery();
-					dbcmd.CommandText = "create table keywords (sitename varchar(50), keyphrase varchar (100)) ";
-					dbcmd.ExecuteNonQuery();
-					Console.WriteLine("not reads");
-				}
-					
-				reader.Close();
+				doc.Load(xmlpath);
 			}
-			
-			catch (Exception ex) // need to catch nearly every exception, sqllite (or the wrapper) seems unreliable in throwing the right one
+			catch(System.IO.FileNotFoundException) 
 			{
-				Console.WriteLine(ex.ToString());
+
+				doc.LoadXml("<sites></sites>");
+				doc.Save(Path.Combine(ranker.lib.libConfig.GetConfigPath(), "sites.xml"));	
 			}
-			
-			this.EndConfiguration();
+			return doc;
 		}
-	
-		private void LoadConfiguration()
-        {
-        	//the replace is needed because on windows the path is with \ while the uri needs /
-			string connectionString = "URI=file:"+ranker.lib.libConfig.GetConfigPath().Replace("\\","/") + "/websites.db";
-			Console.WriteLine(connectionString);
-			dbcon = new SqliteConnection(connectionString);
-			dbcon.Open();
-        	dbcmd = dbcon.CreateCommand();        	
-        }        
-        
-        private void EndConfiguration()
-        {
-        	dbcmd = null;
-        	dbcon.Close();
-        	dbcon = null;
-        }
-        
-		private void SaveConfiguration()
-		{
 				
+	        
+		private void SaveConfiguration(XmlDocument doc)
+		{
+			doc.Save(Path.Combine(ranker.lib.libConfig.GetConfigPath(), "sites.xml"));
 		}
 		
 		
 		public void FillStoreNames(Gtk.TreeStore tree_store)
 		{
-			this.LoadConfiguration();
-			// Populate the model.
-			dbcmd.CommandText = "select name from websites";
-			IDataReader reader = dbcmd.ExecuteReader();
+				
+			XmlDocument doc = this.GetXmlDocument();
+			XmlNodeList nodelist = doc.SelectNodes("/sites/site/name");
 			
-			while (reader.Read())
+			// Iterate on the node set
+			
+			foreach (XmlNode n in nodelist)
 			{
-				string name = reader.GetString(0);
-				tree_store.AppendValues(name);
+				Console.WriteLine(n.InnerText);
+				tree_store.AppendValues(n.InnerText);
 			}
 			
-			this.EndConfiguration();
+			doc = null;
+			nodelist = null;
+
 		}
 		
 		public string GetSiteUrl(string name)
 		{
-			this.LoadConfiguration();
-			dbcmd.CommandText = "select url from websites where name = '" + name.Replace("'","''") + "'";
-			string url = (string)dbcmd.ExecuteScalar();
-			this.EndConfiguration();
+			XmlDocument doc = this.GetXmlDocument();
+			XmlNode node = doc.SelectSingleNode("/sites/site[name='"+name+"']/url");
+			string url = node.InnerText;
+			doc = null;
+			node = null;
 			return url;
 		}
 		
 		public StringCollection GetSiteKeywords(string name)
 		{
-			this.LoadConfiguration();
 			StringCollection keywords=new StringCollection();
-			dbcmd.CommandText = "select keyphrase from keywords where sitename = '" + name.Replace("'","''") + "'";
-			IDataReader reader = dbcmd.ExecuteReader();		
-				
-			while (reader.Read())
-			{
-				keywords.Add(reader.GetString(0));				
-			}			
+
+			XmlDocument doc = this.GetXmlDocument();
 			
-			this.EndConfiguration();
+			XmlNodeList nodelist = doc.SelectNodes("/sites/site[name='"+name+"']/keywords");
+
+			// Iterate on the node set
+			foreach (XmlNode n in nodelist)
+			{
+				Console.WriteLine(n.InnerText);
+				keywords.Add(n.InnerText);
+			}
+
+			doc = null;
+			nodelist = null;
+			
 			return keywords;
 		}
 		
 		public void addItem(string name, string url, string keywords)
 		{
-			this.LoadConfiguration();
-			dbcmd.CommandText = "Insert into websites (name, url) values ('" + name +"','" + url +"')";
-			dbcmd.ExecuteNonQuery();
+			XmlDocument doc = this.GetXmlDocument();
+
 			string [] aKeywords = keywords.Split(";"[0]);
-	        
+
+			XmlElement xmlNewSite = doc.CreateElement("site");
+			XmlElement xmlNewName = doc.CreateElement("name");
+			xmlNewName.InnerXml = name;
+			XmlElement xmlNewUrl = doc.CreateElement("url");
+			xmlNewUrl.InnerXml = url;
+		
+			xmlNewSite.AppendChild(xmlNewName);
+			xmlNewSite.AppendChild(xmlNewUrl);
+
 	        foreach (string s in aKeywords) 
  	     	{
-				dbcmd.CommandText = "insert into keywords (sitename, keyphrase) values ('" + name + "','" + s + "')";
-				dbcmd.ExecuteNonQuery();
+ 	     		XmlElement xmlNewKey = doc.CreateElement("keywords");
+ 	     		xmlNewKey.InnerXml = s;		
+				xmlNewSite.AppendChild(xmlNewKey);
+				xmlNewKey = null;
         	}
-			
-			this.EndConfiguration();
+
+	   		doc.DocumentElement.AppendChild(xmlNewSite);
+	   		
+	   		this.SaveConfiguration(doc);
+	   		
+	   		doc = null;
+			xmlNewUrl = null;
+			xmlNewName = null;
+			xmlNewSite = null;
+	   		
 		}
+		
+		public void ChangeSiteName(string oldname, string newname)
+		{
+		
+		}
+		
+		public void ChangeSiteUrl(string name, string newurl)
+		{
+		
+		}
+		
+		public void RemoveSiteKeywords(string name, string oldkeywords) //doesn't work
+		{
+			string [] keywords = oldkeywords.Split(";"[0]);
+			
+			XmlDocument doc = this.GetXmlDocument();
+			XmlNode node = doc.SelectSingleNode("/sites/site[name='"+name+"']");
+			
+			foreach (string s in keywords)
+			{
+				XmlNode noderemove = node.SelectSingleNode("[keywords='"+s+"']/keywords");		
+				node.RemoveChild(noderemove);
+				noderemove = null;
+			}
+			
+			this.SaveConfiguration(doc);
+			
+			doc = null;
+			node = null;
+		
+		
+		}
+		
+		public void AddSiteKeywords(string name, string newkeywords)
+		{
+			string [] keywords = newkeywords.Split(";"[0]);
+			
+			XmlDocument doc = this.GetXmlDocument();
+			XmlNode node = doc.SelectSingleNode("/sites/site[name='"+name+"']");
+			
+			Console.WriteLine("antes de foreach node {0}", node.InnerXml);
+			
+			foreach (string s in keywords) 
+ 	     	{
+ 	     		Console.WriteLine("foreach1");
+ 	     		XmlElement xmlNewKey = doc.CreateElement("keywords");
+ 	     		Console.WriteLine("foreach2");
+ 	     		xmlNewKey.InnerXml = s;		
+ 	     		Console.WriteLine("foreach3");
+				node.AppendChild(xmlNewKey);
+				Console.WriteLine("foreach4");
+				xmlNewKey = null;
+        	}
+        	
+        	this.SaveConfiguration(doc);
+        	
+        	doc = null;
+        	node = null;
+			
+		}
+		
 		
 		public void deleteItem(string name)
 		{
-			this.LoadConfiguration();
-			dbcmd.CommandText = "delete from websites where name= '" + name+  "'";
-			dbcmd.ExecuteNonQuery();
-			this.EndConfiguration();
+			XmlDocument doc = this.GetXmlDocument();
+			XmlNode noderemove = doc.SelectSingleNode("/sites/site[name='"+name+"']");
+			XmlNode node = doc.SelectSingleNode("/sites");
+			
+			node.RemoveChild(noderemove);
+			this.SaveConfiguration(doc);
+			
+			doc = null;
+			noderemove = null;
+			node = null;
 		}
 	}
 }

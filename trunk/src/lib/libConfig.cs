@@ -16,11 +16,13 @@ namespace ranker.lib {
 			string xmlpath = ranker.lib.libConfig.GetConfigPath();
 			XmlDocument doc = new XmlDocument();
 			xmlpath = Path.Combine(GetConfigPath(), "config.xml");	
-			try{
-				//xmlpath = Path.Combine(GetConfigPath(), "config.xml");
+			
+			try
+			{
 				doc.Load(xmlpath);
 			}
-			catch(System.IO.FileNotFoundException) {
+			catch(System.IO.FileNotFoundException) 
+			{
 
 				Console.WriteLine("No configuration file found, please create one manually for now");
 				this.CreateConfigFile();
@@ -32,8 +34,8 @@ namespace ranker.lib {
 
 		public void CreateConfigFile()
 		{
-			ranker.GUI.GoogleKey Gk = new ranker.GUI.GoogleKey();
-			// o bien: new ranker.GUI.GoogleKey();
+			// o bien: ranker.GUI.GoogleKey Gk = new ranker.GUI.GoogleKey();
+			new ranker.GUI.GoogleKey();
 		}
 		
 		public void WriteConfigFile(string gk)
@@ -60,7 +62,8 @@ namespace ranker.lib {
 		{
 			string configdir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 			configdir = System.IO.Path.Combine(configdir, "gtkranker");
-			if (!System.IO.Directory.Exists(configdir)) {
+			if (!System.IO.Directory.Exists(configdir)) 
+			{
 
 				System.IO.Directory.CreateDirectory(configdir);
 			}
